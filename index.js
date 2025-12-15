@@ -5,6 +5,19 @@ class Task{
     }
 }
 
+function bubbleSort(items) {
+    let n = items.length;
+    for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < n - i - 1; j++) {
+            if (items[j].task.description > items[j + 1].task.description) {
+                let temp = items[j];
+                items[j] = items[j + 1];
+                items[j + 1] = temp;
+            }
+        }
+    }
+}
+
 let tasks = [
     new Task('pack spikes for track meet', 'todo'), 
     new Task('make my bed', 'todo'), 
@@ -29,23 +42,32 @@ function drawCard(index, task){
 }
 
 function drawTodoCards(){
-    let output = '';
+    let todoTasks = [];
     tasks.forEach((task, index) => {
         if(task.status == 'todo'){
-            output += drawCard(index, task);
+            todoTasks.push({task, index});
         }
+    });
+    bubbleSort(todoTasks);
+    let output = '';
+    todoTasks.forEach(item => {
+        output += drawCard(item.index, item.task);
     });
     
     return output;
 }
 
 function drawDoingCards(){
-    let output = '';
-    
+    let doingTasks = [];
     tasks.forEach((task, index) => {
         if(task.status == 'doing'){
-            output += drawCard(index, task);
+            doingTasks.push({task, index});
         }
+    });
+    bubbleSort(doingTasks);
+    let output = '';
+    doingTasks.forEach(item => {
+        output += drawCard(item.index, item.task);
     });
     
     return output;
@@ -54,12 +76,16 @@ function drawDoingCards(){
 
 
 function drawDoneCards(){
-    let output = '';
-    
+    let doneTasks = [];
     tasks.forEach((task, index) => {
         if(task.status == 'done'){
-            output += drawCard(index, task);
+            doneTasks.push({task, index});
         }
+    });
+    bubbleSort(doneTasks);
+    let output = '';
+    doneTasks.forEach(item => {
+        output += drawCard(item.index, item.task);
     });
     
     return output;
